@@ -1,13 +1,10 @@
 export default async function handler(req, res) {
-  if (req.method !== 'POST') {
-    return res.status(405).json({ error: 'Method Not Allowed' });
-  }
+  if (req.method !== 'POST') return res.status(405).json({ error: 'Method Not Allowed' });
 
   const apiKey = process.env.VIATOR_API_KEY;
-  const url = 'https://api.viator.com/partner/products/search';
 
   try {
-    const response = await fetch(url, {
+    const response = await fetch('https://api.viator.com/partner/products/search', {
       method: 'POST',
       headers: {
         'exp-api-key': apiKey,
@@ -20,6 +17,6 @@ export default async function handler(req, res) {
     const data = await response.json();
     res.status(response.status).json(data);
   } catch (err) {
-    res.status(500).json({ error: 'Proxy Error', message: err.message });
+    res.status(500).json({ error: 'Proxy error', message: err.message });
   }
 }
